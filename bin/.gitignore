@@ -1,2 +1,4 @@
 /DnsClient.class
 /QType.class
+/DnsResponse.class
+/DnsRecord.class
