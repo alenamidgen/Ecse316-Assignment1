@@ -15,7 +15,7 @@ public class DnsClient
 	private static byte[] server = new byte[4]; //IPv4 address of the DNS server in a.b.c.d format
 	private static QType queryType = QType.A;
 	private static int DNS_PACKET_HEADER_SIZE = 12; //Size of DNS header in bytes
-	private static int DNS_PACKET_QUESTION_SIZE = 4; //Size of DNS question in bytes (excluding QNAME)
+	private static int DNS_PACKET_QUESTION_SIZE = 5; //Size of DNS question in bytes (excluding QNAME)
 	
 	public static void main (String args[]) throws Exception
 	{
@@ -73,7 +73,6 @@ public class DnsClient
 							}
 							
 							server[j] = (byte) octet;
-							System.out.println(server[j]);
 						}
 						name = it.next();
 					}
@@ -86,10 +85,10 @@ public class DnsClient
 		int byteSize = 0;
 		String[] labels = name.split("\\.");
 		for (int i = 0; i < labels.length; i++) {
-			byteSize = labels[i].length() + 1; //Extra byte included for length of label
+			byteSize += labels[i].length() + 1; //Extra byte included for length of label
 		}
 		
-		return byteSize + 1; //Extra byte with value 0
+		return byteSize; //Extra byte with value 0
 	}
 	
 	private static byte[] constructHeader() {
