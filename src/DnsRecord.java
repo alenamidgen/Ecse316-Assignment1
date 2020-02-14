@@ -5,7 +5,7 @@ public class DnsRecord {
 	private QType queryType;
 	private byte[] qClass;
 	private boolean auth;
-	private String name;
+	private String name, resourceType;
 	
 	public DnsRecord(boolean authoritative) {
 		this.auth = authoritative;
@@ -33,5 +33,69 @@ public class DnsRecord {
 			default:
 				break;
 		}
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public int getRecordLength() {
+		return recLength;
+	}
+	
+	public void setRecordLength(int length) {
+		this.recLength = length;
+	}
+	
+	public byte[] getQClass() {
+		return qClass;
+	}
+	
+	public void setQClass(byte[] queryClass) {
+		this.qClass = queryClass;
+	}
+	
+	public int getTTL() {
+		return timeToLive;
+	}
+	
+	public void setTTL(int ttl) {
+		this.timeToLive = ttl;
+	}
+	
+	public int getRDLength() {
+		return rdLength;
+	}
+	
+	public void setRDLength(int rdLength) {
+		this.rdLength = rdLength;
+	}
+	
+	public QType getQueryType() {
+		return queryType;
+	}
+	
+	public void setQueryType(QType qType) {
+		this.queryType = qType;
+	}
+	
+	public String getResourceType() {
+		return resourceType;
+	}
+	
+	public void setResourceType(String resourceType) {
+		this.resourceType = resourceType;
+	}
+	
+	public int getMXPreference() {
+		return mxPreference;
+	}
+	
+	public void setMXPreference(int mxPref) {
+		this.mxPreference = mxPref;
 	}
 }

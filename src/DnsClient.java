@@ -1,6 +1,9 @@
 import java.io.*;
 import java.net.*;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 public class DnsClient 
@@ -37,20 +40,20 @@ public class DnsClient
 	}
 			
 	private static void readInput(String input[]) {
+		List<String> arguments = Arrays.asList(input);
+		ListIterator<String> it = arguments.listIterator();
 		
-		for (int i = 0; i < input.length; i++) {
-			switch(input[i]) {
+		while(it.hasNext()) {
+			String arg = it.next();
+			switch(arg) {
 				case "-t":
-					i += 1; //get argument after flag
-					timeout = Integer.parseInt(input[i]) * 1000;
+					timeout = Integer.parseInt(it.next()) * 1000;
 					break;
 				case "-r":
-					i += 1;
-					maxRetries = Integer.parseInt(input[i]);
+					maxRetries = Integer.parseInt(it.next());
 					break;
 				case "-p":
-					i += 1;
-					port = Integer.parseInt(input[i]);
+					port = Integer.parseInt(it.next());
 					break;
 				case "-mx":
 					queryType = QType.MX;
@@ -59,8 +62,8 @@ public class DnsClient
 					queryType = QType.NS;
 					break;
 				default:
-					if (input[i].equals("@")) {
-						String ipAddress = input[i].substring(1);
+					if (arg.contains("@")) {
+						String ipAddress = arg.substring(1);
 						String[] ipNumbers = ipAddress.split("\\.");
 						
 						for (int j = 0; j < ipNumbers.length; j++) {
@@ -70,8 +73,9 @@ public class DnsClient
 							}
 							
 							server[j] = (byte) octet;
+							System.out.println(server[j]);
 						}
-						name = input[i+1];
+						name = it.next();
 					}
 					break;
 			}
@@ -165,6 +169,8 @@ public class DnsClient
 			clientSocket.close();
 			System.out.println("Response received after " + (end-start)/1000 + " seconds (" + (retries-1) + " retries).");
 			
+			DnsResponse response = new DnsResponse(receivePacket.getData(), sendData.length, queryType);
+			response.printResponsePacket();
 			
 			
 		} catch (SocketException e) {
