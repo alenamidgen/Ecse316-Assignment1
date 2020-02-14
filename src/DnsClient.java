@@ -32,7 +32,7 @@ public class DnsClient
 		}
 		
 		System.out.println("DnsClient sending request for " + name);
-		System.out.println("Server: " + server);
+		System.out.println("Server: " + server.toString());
 		System.out.println("Request type: " + queryType);
 		
 		transmitQuery(1); //Create request packet and receive response packet
@@ -166,7 +166,7 @@ public class DnsClient
 			long end = System.currentTimeMillis();
 			
 			clientSocket.close();
-			System.out.println("Response received after " + (end-start)/1000 + " seconds (" + (retries-1) + " retries).");
+			System.out.println("Response received after " + (end-start)/1000. + " seconds (" + (retries-1) + " retries).");
 			
 			DnsResponse response = new DnsResponse(receivePacket.getData(), sendData.length, queryType);
 			response.printResponsePacket();
