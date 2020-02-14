@@ -12,6 +12,7 @@ public class DnsClient
 	private static int maxRetries = 3; //default value for retransmitting unanswered query
 	private static int port = 53; //default UDP port number
 	private static String name = ""; //domain name to query for
+	private static String ipAddress = ""; //String to store IPv4 address
 	private static byte[] server = new byte[4]; //IPv4 address of the DNS server in a.b.c.d format
 	private static QType queryType = QType.A;
 	private static int DNS_PACKET_HEADER_SIZE = 12; //Size of DNS header in bytes
@@ -32,7 +33,7 @@ public class DnsClient
 		}
 		
 		System.out.println("DnsClient sending request for " + name);
-		System.out.println("Server: " + server.toString());
+		System.out.println("Server: " + ipAddress);
 		System.out.println("Request type: " + queryType);
 		
 		transmitQuery(1); //Create request packet and receive response packet
@@ -63,7 +64,7 @@ public class DnsClient
 					break;
 				default:
 					if (arg.contains("@")) {
-						String ipAddress = arg.substring(1);
+						ipAddress = arg.substring(1);
 						String[] ipNumbers = ipAddress.split("\\.");
 						
 						for (int j = 0; j < ipNumbers.length; j++) {
